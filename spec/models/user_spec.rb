@@ -4,7 +4,7 @@ RSpec.describe User, type: :model do
   describe 'Validations' do
     # validation examples here
     it 'makes a valid user' do
-      @user = User.new( first_name: "Test", last_name: "Name", email: "Test@Test.com", password: "12345", password_confirmation: "12345")
+      @user = User.new( first_name: "Test", last_name: "Name", email: "Test1@Test.com", password: "12345", password_confirmation: "12345")
       expect(@user).to be_valid
     end
 
@@ -49,6 +49,20 @@ RSpec.describe User, type: :model do
 
   describe '.authenticate_with_credentials' do
     # examples for this class method here
+    it 'should authenticate with valid credentials' do
+      @user = User.new( first_name: "Test", last_name: "Name", email: "Test2@Test.com", password: "12345", password_confirmation: "12345")
+      @user.save
+      @auth = User.authenticate_with_credentials("Test2@Test.com", "12345")
+      expect(@auth).to eq(@user)
+    end
+
+    it 'should not authenticate with invalid credentials' do
+      @user = User.new( first_name: "Test", last_name: "Name", email: "Test2@Test.com", password: "12345", password_confirmation: "12345")
+      @user.save
+      @auth = User.authenticate_with_credentials("Test2@Test.com", "123425")
+      expect(@auth).not_to eq(@user)
+    end
+
   end
 
 end
