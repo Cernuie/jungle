@@ -63,6 +63,19 @@ RSpec.describe User, type: :model do
       expect(@auth).not_to eq(@user)
     end
 
+    it 'should authenticate if there are spaces in email address' do
+      @user = User.new( first_name: "Test", last_name: "Name", email: "Test2@Test.com", password: "12345", password_confirmation: "12345")
+      @user.save
+      @auth = User.authenticate_with_credentials(" Test2@Test.com  ", "12345")
+      expect(@auth).to eq(@user)
+    end
+
+    it 'should authenticate if there is a wrong case in the email' do
+      @user = User.new( first_name: "Test", last_name: "Name", email: "Test2@Test.com", password: "12345", password_confirmation: "12345")
+      @user.save
+      @auth = User.authenticate_with_credentials(" TEST2@Test.com  ", "12345")
+      expect(@auth).to eq(@user)
+    end
   end
 
 end
