@@ -13,5 +13,6 @@ class User < ActiveRecord::Base
       return @user
     else
       nil
+    end
   end
 end
